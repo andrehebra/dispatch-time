@@ -36,6 +36,7 @@
                     todos: [],
                     clockIn: [],
                     clockOut: [],
+                    times: [],
                 };
                 await setDoc(userRef, dataToSetToStore, { merge: true });
             } else {

@@ -7,14 +7,18 @@
     let todoList = [];
     let clockInTimes = [];
     let clockOutTimes = [];
+    let timeMapArray = [];
     let currTodo = "";
     let error = false;
 
     authStore.subscribe((curr) => {
-        todoList = curr.data.todos;
+        //todoList = curr.data.todos;
         clockInTimes = curr.data.clockIn;
         clockOutTimes = curr.data.clockOut;
+        timeMapArray = curr.data.times;
     });
+
+    
 
     function addTodo() {
         error = false;
@@ -30,9 +34,23 @@
         if (!currTodo) {
             error = true;
         }
-        todoList = [...todoList, new Date()];
+        todoList = [...todoList, [new Date()]];
         clockInTimes = [...clockInTimes, new Date()];
+        clockOutTimes = [...clockOutTimes, "CURRENTLY CLOCKED IN"];
         currTodo = "";
+
+        if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
+            alert("Unable to clock in, you are already clocked in!");
+            return;
+        }
+
+        let currentTimes = {
+            clockIn: new Date(),
+            clockOut: "CURRENTLY CLOCKED IN",
+        }
+        timeMapArray = [...timeMapArray, currentTimes]
+        saveTodos();
+        console.log(timeMapArray);
     }
 
     function clockOut() {
@@ -40,8 +58,12 @@
         if (!currTodo) {
             error = true;
         }
-        todoList = [...todoList, new Date()];
-        clockOutTimes = [...clockOutTimes, new Date()];
+
+        if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
+            timeMapArray[timeMapArray.length - 1].clockOut = new Date();
+            saveTodos();
+        }
+
         currTodo = "";
     }
 
@@ -68,9 +90,10 @@
             await setDoc(
                 userRef,
                 {
-                    todos: todoList,
+                    //todos: todoList,
                     clockIn: clockInTimes,
                     clockOut: clockOutTimes,
+                    times: timeMapArray,
                 },
                 { merge: true }
             );
@@ -96,11 +119,11 @@
             </div>
         </div>
         <main>
-            {#if todoList.length === 0}
+            {#if clockInTimes.length === 0}
                 <p>You Currently Have no History!</p>
             {/if}
-            {#each todoList as todo, index}
-                <TodoItem {todo} {index} {removeTodo} {editTodo} />
+            {#each clockInTimes as clockInItem, index}
+                <h5>{clockInTimes[index].toDate().toLocaleDateString('en-US')} {clockInTimes[index].toDate().toLocaleTimeString('en-US')} | {clockInTimes[index].toDate().toLocaleDateString('en-US')} {clockInTimes[index].toDate().toLocaleTimeString('en-US')}</h5>
             {/each}
         </main>
         <div class={"enterTodo " + (error ? "errorBorder" : "")}>
