@@ -62,7 +62,11 @@
         if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
             timeMapArray[timeMapArray.length - 1].clockOut = new Date();
             saveTodos();
+        } else {
+            alert("Unable to clock out, you are not clocked in!");
         }
+
+        saveTodos();
 
         currTodo = "";
     }
@@ -122,8 +126,12 @@
             {#if clockInTimes.length === 0}
                 <p>You Currently Have no History!</p>
             {/if}
-            {#each clockInTimes as clockInItem, index}
-                <h5>{clockInTimes[index].toDate().toLocaleDateString('en-US')} {clockInTimes[index].toDate().toLocaleTimeString('en-US')} | {clockInTimes[index].toDate().toLocaleDateString('en-US')} {clockInTimes[index].toDate().toLocaleTimeString('en-US')}</h5>
+            {#each timeMapArray as clockInItem, index}
+            <div class="todo">
+                <p>
+                    {index + 1}. {timeMapArray[index].clockIn.toDate().toLocaleDateString('en-US')} {timeMapArray[index].clockIn.toDate().toLocaleTimeString('en-US')} - {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : timeMapArray[index].clockOut.toDate().toLocaleDateString('en-us')} {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "" : timeMapArray[index].clockOut.toDate().toLocaleTimeString('en-us')}
+                </p>
+            </div>
             {/each}
         </main>
         <div class={"enterTodo " + (error ? "errorBorder" : "")}>
@@ -135,6 +143,28 @@
 {/if}
 
 <style>
+    .todo {
+        border-left: 1px solid cyan;
+        padding: 8px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 1.3rem;
+    }
+
+    .actions i {
+        cursor: pointer;
+    }
+
+    .actions i:hover {
+        color: coral;
+    }
     .mainContainer {
         display: flex;
         flex-direction: column;
