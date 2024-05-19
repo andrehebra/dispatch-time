@@ -1,5 +1,5 @@
 {
-	"name": "sveltekit-fullstack-crud",
+	"name": "time-tracking",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -8,13 +8,15 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.5.0",
-		"svelte": "^3.54.0",
-		"vite": "^4.0.0"
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-cloudflare": "^4.4.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"svelte": "^4.2.7",
+		"vite": "^5.0.3"
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^9.17.2"
+		"firebase": "^10.10.0"
 	}
 }
