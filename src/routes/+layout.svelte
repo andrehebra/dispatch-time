@@ -34,6 +34,8 @@
                 dataToSetToStore = {
                     email: user.email,
                     todos: [],
+                    clockIn: [],
+                    clockOut: [],
                 };
                 await setDoc(userRef, dataToSetToStore, { merge: true });
             } else {

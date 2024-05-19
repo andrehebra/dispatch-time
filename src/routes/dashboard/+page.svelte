@@ -5,11 +5,15 @@
     import TodoItem from "../../components/TodoItem.svelte";
 
     let todoList = [];
+    let clockInTimes = [];
+    let clockOutTimes = [];
     let currTodo = "";
     let error = false;
 
     authStore.subscribe((curr) => {
         todoList = curr.data.todos;
+        clockInTimes = curr.data.clockIn;
+        clockOutTimes = curr.data.clockOut;
     });
 
     function addTodo() {
@@ -17,7 +21,27 @@
         if (!currTodo) {
             error = true;
         }
-        todoList = [...todoList, currTodo];
+        todoList = [...todoList, [currTodo, "EMPTY"]];
+        currTodo = "";
+    }
+
+    function clockIn() {
+        error = false;
+        if (!currTodo) {
+            error = true;
+        }
+        todoList = [...todoList, new Date()];
+        clockInTimes = [...clockInTimes, new Date()];
+        currTodo = "";
+    }
+
+    function clockOut() {
+        error = false;
+        if (!currTodo) {
+            error = true;
+        }
+        todoList = [...todoList, new Date()];
+        clockOutTimes = [...clockOutTimes, new Date()];
         currTodo = "";
     }
 
@@ -45,6 +69,8 @@
                 userRef,
                 {
                     todos: todoList,
+                    clockIn: clockInTimes,
+                    clockOut: clockOutTimes,
                 },
                 { merge: true }
             );
@@ -57,7 +83,7 @@
 {#if !$authStore.loading}
     <div class="mainContainer">
         <div class="headerContainer">
-            <h1>Todo List</h1>
+            <h1>FTP Dispatch Time Tracking</h1>
             <div class="headerBtns">
                 <button on:click={saveTodos}>
                     <i class="fa-regular fa-floppy-disk" />
@@ -71,15 +97,16 @@
         </div>
         <main>
             {#if todoList.length === 0}
-                <p>You have nothing to do!</p>
+                <p>You Currently Have no History!</p>
             {/if}
             {#each todoList as todo, index}
                 <TodoItem {todo} {index} {removeTodo} {editTodo} />
             {/each}
         </main>
         <div class={"enterTodo " + (error ? "errorBorder" : "")}>
-            <input bind:value={currTodo} type="text" placeholder="Enter todo" />
-            <button on:click={addTodo}>ADD</button>
+            
+            <button on:click={clockIn}>Clock In</button>
+            <button on:click={clockOut}>Clock Out</button>
         </div>
     </div>
 {/if}
@@ -138,9 +165,10 @@
 
     .enterTodo {
         display: flex;
+        width: 250px;
         align-items: stretch;
         border: 1px solid #0891b2;
-        border-radius: 5px;
+        border-radius: 10px;
         overflow: hidden;
     }
 
@@ -161,6 +189,8 @@
     }
 
     .enterTodo button {
+        height: 50px;
+        width: 125px;
         padding: 0 28px;
         background: #003c5b;
         border: none;

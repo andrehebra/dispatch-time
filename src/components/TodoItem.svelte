@@ -1,13 +1,15 @@
 <script>
     export let index;
     export let todo;
+    export let clockIn;
+    export let clockOut;
     export let editTodo;
     export let removeTodo;
 </script>
 
 <div class="todo">
     <p>
-        {index + 1}. {todo}
+        {index + 1}. {clockIn} - {clockOut}
     </p>
     <div class="actions">
         <i
