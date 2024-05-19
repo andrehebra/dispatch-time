@@ -18,7 +18,9 @@
         timeMapArray = curr.data.times;
     });
 
-    
+    function reloadPage() {
+        location.reload();
+    }
 
     function addTodo() {
         error = false;
@@ -104,6 +106,8 @@
         } catch (err) {
             console.log("There was an error saving your information");
         }
+
+        reloadPage();
     }
 </script>
 
