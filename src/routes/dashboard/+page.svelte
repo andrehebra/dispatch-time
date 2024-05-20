@@ -41,6 +41,7 @@
         clockOutTimes = [...clockOutTimes, "CURRENTLY CLOCKED IN"];
         currTodo = "";
 
+    
         if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
             alert("Unable to clock in, you are already clocked in!");
             return;
@@ -49,10 +50,14 @@
         let currentTimes = {
             clockIn: new Date(),
             clockOut: "CURRENTLY CLOCKED IN",
+            totalTime: null,
         }
         timeMapArray = [...timeMapArray, currentTimes]
         saveTodos();
         console.log(timeMapArray);
+        
+
+        
     }
 
     function clockOut() {
@@ -63,6 +68,7 @@
 
         if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
             timeMapArray[timeMapArray.length - 1].clockOut = new Date();
+            timeMapArray[timeMapArray.length - 1].totalTime = (Math.abs(timeMapArray[timeMapArray.length - 1].clockOut - timeMapArray[timeMapArray.length - 1].clockIn.toDate()) / (1000 * 60 * 60));
             saveTodos();
         } else {
             alert("Unable to clock out, you are not clocked in!");
