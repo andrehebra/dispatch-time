@@ -122,10 +122,7 @@
         <div class="headerContainer">
             <h1>FTP Dispatch Time Tracking</h1>
             <div class="headerBtns">
-                <button on:click={saveTodos}>
-                    <i class="fa-regular fa-floppy-disk" />
-                    <p>Save</p></button
-                >
+                
                 <button on:click={authHandlers.logout}>
                     <i class="fa-solid fa-right-from-bracket" />
                     <p>Logout</p></button
