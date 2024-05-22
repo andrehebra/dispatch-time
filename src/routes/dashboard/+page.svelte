@@ -2,6 +2,7 @@
     import { db } from "../../lib/firebase/firebase";
     import { authHandlers, authStore } from "../../store/store";
     import { getDoc, doc, setDoc } from "firebase/firestore";
+    import { collection, getDocs } from "firebase/firestore";
     import TodoItem from "../../components/TodoItem.svelte";
 
     let todoList = [];
@@ -10,12 +11,22 @@
     let timeMapArray = [];
     let currTodo = "";
     let error = false;
+    let admin = false;
+    let adminUsers = [];
 
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
         clockInTimes = curr.data.clockIn;
         clockOutTimes = curr.data.clockOut;
         timeMapArray = curr.data.times;
+        if (curr.user != null) {
+            if (curr.user.uid != null) {
+                if (curr.user.uid == "691DpeS3ATWdkFygcrC0cefMxLl1" || curr.user.uid == "PzHTuv5VaAdMQsgp0RFGSlJR9lJ2") {
+                    admin = true;
+                    getAllUserTimes();
+                }
+            }
+        }
     });
 
     function reloadPage() {
@@ -96,6 +107,26 @@
         todoList = newTodoList;
     }
 
+    async function getAllUserTimes() {
+        try {
+            const nonAdminUser = collection(db, "users");
+            const docSnap = await getDocs(nonAdminUser);
+            //const usersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            const documents = docSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log(documents);
+
+            adminUsers = documents;
+
+            return documents;
+            
+            //return usersData;
+        } catch (error) {
+            console.error("Error fetching users data: ", error);
+            throw error;
+        }
+    }
+
     async function saveTodos() {
         try {
             const userRef = doc(db, "users", $authStore.user.uid);
@@ -115,6 +146,12 @@
 
         reloadPage();
     }
+
+    if (admin == true) {
+        console.log("hello");
+        adminUsers = getAllUserTimes();
+        
+    }
 </script>
 
 {#if !$authStore.loading}
@@ -130,6 +167,12 @@
             </div>
         </div>
         <main>
+            {#if admin === false}
+            <div class={"enterTodo " + (error ? "errorBorder" : "")}>
+            
+                <button on:click={clockIn}>Clock In</button>
+                <button on:click={clockOut}>Clock Out</button>
+            </div>
             {#if clockInTimes.length === 0}
                 <p>You Currently Have no History!</p>
             {/if}
@@ -140,16 +183,38 @@
                 </p>
             </div>
             {/each}
+            {:else if admin === true}
+                {#each adminUsers as user}
+                    {#if user.Name != null}
+                        <h1>{user.Name}</h1>
+                        {#each user.times as clockInItem, index}
+                            {#if clockInItem.clockIn.toDate().getHours() > 6 || (clockInItem.clockIn.toDate().getHours() == 6 && clockInItem.clockIn.toDate().getMinutes() > 30)}
+                                <div class="todo late">
+                                    <p>
+                                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
+                                    </p>
+                                </div>
+                            {:else}
+                                <div class="todo">
+                                    <p>
+                                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
+                                    </p>
+                                </div>
+                            {/if}
+                            
+                        {/each}
+                    {/if}
+                {/each}
+            {/if}
         </main>
-        <div class={"enterTodo " + (error ? "errorBorder" : "")}>
-            
-            <button on:click={clockIn}>Clock In</button>
-            <button on:click={clockOut}>Clock Out</button>
-        </div>
+        
     </div>
 {/if}
 
 <style>
+    .late {
+        background-color: red;
+    }
     .todo {
         border-left: 1px solid cyan;
         padding: 8px 14px;
