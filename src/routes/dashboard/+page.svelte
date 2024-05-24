@@ -43,7 +43,7 @@
             console.log(location);
         });
     };
-    */
+    
     
     let hasLocation = false;
     let location;
@@ -60,6 +60,7 @@
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
+    */
     
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
