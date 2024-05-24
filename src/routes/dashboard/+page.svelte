@@ -275,13 +275,18 @@
                                     <p>
                                         {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
                                     </p>
-                                    <button>hello</button>
+                                    {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
+                                        <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
+                                    {/if}
                                 </div>
                             {:else}
                                 <div class="todo">
                                     <p>
                                         {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
                                     </p>
+                                    {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
+                                        <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
+                                    {/if}
                                 </div>
                             {/if}
                             
@@ -295,6 +300,15 @@
 {/if}
 
 <style>
+    a {
+        color: white;
+        font-size: 0.8rem;
+        border: white solid;
+        border-width: 2px;
+        padding: 2px;
+        border-radius: 2px;
+    }
+
     .late {
         background-color: red;
     }
