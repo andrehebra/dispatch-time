@@ -43,6 +43,7 @@
             console.log(location);
         });
     };
+    */
 
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
@@ -58,7 +59,6 @@
             }
         }
     });
-    */
 
     function reloadPage() {
         location.reload();
@@ -166,7 +166,7 @@
             console.log("There was an error saving your information");
         }
 
-        reloadPage();
+        //reloadPage();
     }
 
     if (admin == true) {
@@ -199,11 +199,11 @@
                 <p>You Currently Have no History!</p>
             {/if}
             {#each timeMapArray as clockInItem, index}
-            <div class="todo">
-                <p>
-                    {index + 1}. {timeMapArray[index].clockIn.toDate().toLocaleDateString('en-US')} {timeMapArray[index].clockIn.toDate().toLocaleTimeString('en-US')} - {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : timeMapArray[index].clockOut.toDate().toLocaleDateString('en-us')} {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "" : timeMapArray[index].clockOut.toDate().toLocaleTimeString('en-us')}
-                </p>
-            </div>
+                <div class="todo">
+                    <p>
+                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
+                    </p>
+                </div>
             {/each}
             {:else if admin === true}
                 {#each adminUsers as user}
