@@ -44,7 +44,23 @@
         });
     };
     */
+    
+    let hasLocation = false;
+    let location;
 
+    const successCallback = (position) => {
+        console.log(position);
+        location = position;
+        hasLocation = true;
+    };
+
+    const errorCallback = (error) => {
+        alert("You must allow location access for this tool to work. You will be unable until you edit your location permissions.")
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+    
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
         clockInTimes = curr.data.clockIn;
