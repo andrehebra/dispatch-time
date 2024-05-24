@@ -14,6 +14,53 @@
     let admin = false;
     let adminUsers = [];
 
+    let googleMapsCode = "AIzaSyBfM7u1Q5ZDBqdmQYUOQLYQ-2rLVRlPuLQ";
+
+    /*
+    geolocator.config({
+        language: "en",
+        google: {
+            version: "3",
+            key: googleMapsCode,
+        }
+    });
+ 
+    window.onload = function () {
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumWait: 10000,     // max wait time for desired accuracy
+            maximumAge: 0,          // disable cache
+            desiredAccuracy: 30,    // meters
+            fallbackToIP: true,     // fallback to IP if Geolocation fails or rejected
+            addressLookup: true,    // requires Google API key if true
+            timezone: true,         // requires Google API key if true
+            map: "map-canvas",      // interactive map element id (or options object)
+            staticMap: true         // get a static map image URL (boolean or options object)
+        };
+        geolocator.locate(options, function (err, location) {
+            if (err) return console.log(err);
+            console.log(location);
+        });
+    };
+    */
+    
+    let hasLocation = false;
+    let location;
+
+    const successCallback = (position) => {
+        console.log(position);
+        location = position;
+        hasLocation = true;
+    };
+
+    const errorCallback = (error) => {
+        alert("You must allow location access for this tool to work. You will be unable until you edit your location permissions.")
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+    
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
         clockInTimes = curr.data.clockIn;
@@ -31,15 +78,6 @@
 
     function reloadPage() {
         location.reload();
-    }
-
-    function addTodo() {
-        error = false;
-        if (!currTodo) {
-            error = true;
-        }
-        todoList = [...todoList, [currTodo, "EMPTY"]];
-        currTodo = "";
     }
 
     function clockIn() {
@@ -177,11 +215,11 @@
                 <p>You Currently Have no History!</p>
             {/if}
             {#each timeMapArray as clockInItem, index}
-            <div class="todo">
-                <p>
-                    {index + 1}. {timeMapArray[index].clockIn.toDate().toLocaleDateString('en-US')} {timeMapArray[index].clockIn.toDate().toLocaleTimeString('en-US')} - {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : timeMapArray[index].clockOut.toDate().toLocaleDateString('en-us')} {timeMapArray[index].clockOut == "CURRENTLY CLOCKED IN" ? "" : timeMapArray[index].clockOut.toDate().toLocaleTimeString('en-us')}
-                </p>
-            </div>
+                <div class="todo">
+                    <p>
+                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
+                    </p>
+                </div>
             {/each}
             {:else if admin === true}
                 {#each adminUsers as user}
@@ -193,6 +231,7 @@
                                     <p>
                                         {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
                                     </p>
+                                    <button>hello</button>
                                 </div>
                             {:else}
                                 <div class="todo">
