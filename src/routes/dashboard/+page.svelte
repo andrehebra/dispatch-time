@@ -46,7 +46,7 @@
     
     
     let hasLocation = false;
-    let location;
+    let location = null;
 
     const successCallback = (position) => {
         console.log(position);
@@ -61,7 +61,40 @@
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
     */
+
+    let getLocation = () => {
+        return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            console.error('Geolocation is not supported by your browser');
+            resolve(null);
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                resolve([latitude, longitude]);
+            },
+            (error) => {
+                console.error('Error getting location', error);
+                resolve(null);
+            }
+        );
+        });
+    };
+
+    async function fetchLocation() {
+        const location = await getLocation();
+        if (location) {
+            console.log('Latitude:', location[0], 'Longitude:', location[1]);
+        } else {
+            console.log('Location permission denied or error occurred');
+        }
+        
+    }
+
     
+
     authStore.subscribe((curr) => {
         //todoList = curr.data.todos;
         clockInTimes = curr.data.clockIn;
@@ -81,7 +114,7 @@
         location.reload();
     }
 
-    function clockIn() {
+    async function clockIn() {
         error = false;
         if (!currTodo) {
             error = true;
@@ -90,6 +123,10 @@
         clockInTimes = [...clockInTimes, new Date()];
         clockOutTimes = [...clockOutTimes, "CURRENTLY CLOCKED IN"];
         currTodo = "";
+
+        let currentLocation = await getLocation();
+
+        
 
     
         if (timeMapArray.length != 0 && timeMapArray[timeMapArray.length - 1].clockOut == "CURRENTLY CLOCKED IN") {
@@ -101,6 +138,7 @@
             clockIn: new Date(),
             clockOut: "CURRENTLY CLOCKED IN",
             totalTime: null,
+            location: currentLocation,
         }
         timeMapArray = [...timeMapArray, currentTimes]
         saveTodos();
