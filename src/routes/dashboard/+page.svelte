@@ -166,7 +166,7 @@
             console.log("There was an error saving your information");
         }
 
-        //reloadPage();
+        reloadPage();
     }
 
     if (admin == true) {
