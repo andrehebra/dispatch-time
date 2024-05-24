@@ -63,25 +63,30 @@
     */
 
     let getLocation = () => {
-        return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
-            console.error('Geolocation is not supported by your browser');
-            resolve(null);
-            return;
-        }
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        console.error('Geolocation is not supported by your browser');
+        resolve(null);
+        return;
+      }
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                resolve([latitude, longitude]);
-            },
-            (error) => {
-                console.error('Error getting location', error);
-                resolve(null);
-            }
-        );
-        });
-    };
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          resolve([latitude, longitude]);
+        },
+        (error) => {
+          console.error('Error getting location', error);
+          resolve(null);
+        },
+        {
+          enableHighAccuracy: true,  // Try to use the most accurate location data available
+          timeout: 5000,  // Wait 5 seconds for location data
+          maximumAge: 0   // Do not use cached location data
+        }
+      );
+    });
+  };
 
     async function fetchLocation() {
         const location = await getLocation();
