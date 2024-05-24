@@ -17,6 +17,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^10.12.1"
+		"firebase": "^10.12.1",
+		"geolocator": "^2.1.5"
 	}
 }
