@@ -5,6 +5,12 @@
     import { collection, getDocs } from "firebase/firestore";
     import TodoItem from "../../components/TodoItem.svelte";
 
+    import { DateInput } from 'date-picker-svelte';
+
+    let tempDate = new Date();
+
+    let editTimeModal = false;
+
     let todoList = [];
     let clockInTimes = [];
     let clockOutTimes = [];
@@ -13,6 +19,7 @@
     let error = false;
     let admin = false;
     let adminUsers = [];
+    let adminUsersConverted = [];
 
     let googleMapsCode = "AIzaSyBfM7u1Q5ZDBqdmQYUOQLYQ-2rLVRlPuLQ";
 
@@ -196,9 +203,41 @@
             //const usersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             const documents = docSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log(documents);
+            //console.log(documents);
 
             adminUsers = documents;
+
+            /*
+            for (let i = 0; i < documents.length; i++) {
+                if (adminUsers[i].Name != null) {
+                    adminUsersConverted.push(
+                        {
+                            email: documents[i].email,
+                            id: documents[i].id,
+                            times: documents[i].times,
+                            Name: documents[i].Name
+                        }
+                    );
+
+                    //console.log(adminUsersConverted[0].times);
+
+                    for (let j = 0; j < adminUsersConverted[i].times.length; j++) {
+                        //console.log(adminUsersConverted[i].times[j]);
+                        if (adminUsersConverted[i].times[j] != null) {
+                            adminUsersConverted[i].times[j].clockIn = adminUsersConverted[i].times[j].clockIn.toDate();
+                        }
+                        
+                        if (adminUsersConverted[i].times[j].clockOut != null && adminUsersConverted[i].times[j].clockOut != "CURRENTLY CLOCKED IN") {
+                            adminUsersConverted[i].times[j].clockOut = adminUsersConverted[i].times[j].clockOut.toDate();
+                        }
+                    }
+                }
+                
+            }
+
+            */
+
+            console.log(adminUsersConverted)
 
             return documents;
             
@@ -272,12 +311,23 @@
                         {#each user.times as clockInItem, index}
                             {#if clockInItem.clockIn.toDate().getHours() > 6 || (clockInItem.clockIn.toDate().getHours() == 6 && clockInItem.clockIn.toDate().getMinutes() > 30)}
                                 <div class="todo late">
-                                    <p>
-                                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
-                                    </p>
-                                    {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
-                                        <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
-                                    {/if}
+                                    <div class="horiz-list">
+                                        <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
+                                        {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
+                                            <DateInput class={user + " " + index + " clockout"} value={clockInItem.clockOut.toDate()} />
+                                        {:else}
+                                            <p>Currently Clocked In</p>
+                                        {/if}
+                                    </div>
+                                    
+                                    <div class="options">
+                                        
+                                        
+                                        {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
+                                            <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
+                                        {/if}
+                                    </div>
+                                    
                                 </div>
                             {:else}
                                 <div class="todo">
@@ -299,8 +349,22 @@
     </div>
 {/if}
 
+
+
 <style>
-    a {
+
+    .horiz-list {
+        display: flex;
+        gap: 25px;
+    }
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    a, .button {
+        background-color: transparent;
         color: white;
         font-size: 0.8rem;
         border: white solid;
