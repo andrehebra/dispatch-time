@@ -138,6 +138,11 @@
 
         let currentLocation = await getLocation();
 
+        if (currentLocation == null) {
+            alert("Unable to clock in, you must allow location access for this tool to work.");
+            return;
+        }
+
         
 
     
