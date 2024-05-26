@@ -5,6 +5,8 @@
     import { collection, getDocs } from "firebase/firestore";
     import TodoItem from "../../components/TodoItem.svelte";
 
+    import { Select } from 'flowbite-svelte';
+
     import { DateInput } from 'date-picker-svelte';
 
     let tempDate = new Date();
@@ -22,6 +24,67 @@
     let adminUsersConverted = [];
 
     let googleMapsCode = "AIzaSyBfM7u1Q5ZDBqdmQYUOQLYQ-2rLVRlPuLQ";
+
+
+
+    let periodArray = [];
+    let currentDate = new Date();
+    let periodStartDate = new Date("April 28, 2024 00:00:00");
+    let earliestDate = new Date(currentDate);
+    earliestDate.setDate(earliestDate.getDate() - 30);
+    let nextPeriod = new Date(periodStartDate.getTime());
+    
+    let tempNextDate = new Date(periodStartDate.getTime() + (13*24*60*60*1000));
+    
+
+    
+    while (nextPeriod < currentDate) {
+        nextPeriod = new Date(nextPeriod.getTime() + (14*24*60*60*1000));
+        tempNextDate = new Date(nextPeriod.getTime() + (13*24*60*60*1000));
+        if (earliestDate <= nextPeriod) {
+            periodArray.push({
+                date: nextPeriod,
+                ISODate: nextPeriod.toISOString().slice(0, -5),
+                value: nextPeriod.toISOString().slice(0, -5),
+                name: nextPeriod.toLocaleDateString('en-US') + " - " + tempNextDate.toLocaleDateString('en-US'),
+            })
+        }
+        
+        console.log(periodArray);
+    }
+    let selectedPeriod = nextPeriod;
+
+    let hoursArray = [];
+    let totalHours = 0;
+    function calculatePayHours() {
+        selectedPeriod = new Date(selectedPeriod);
+
+        hoursArray = [];
+
+        let endOfPeriod = new Date(selectedPeriod.getTime() + (14*24*60*60*1000));
+        console.log(endOfPeriod);
+
+        for (let i = 0; i < adminUsers.length; i++) {
+            if (adminUsers[i].Name != null) {
+                totalHours = 0;
+                for (let j = 0; j < adminUsers[i].times.length; j++) {
+                    if (adminUsers[i].times[j].clockIn.toDate() >= selectedPeriod && adminUsers[i].times[j].clockIn.toDate() <= endOfPeriod) {
+                        if (adminUsers[i].times[j].clockOut != "CURRENTLY CLOCKED IN") {
+                            totalHours += (Math.abs(adminUsers[i].times[j].clockOut.toDate() - adminUsers[i].times[j].clockIn.toDate()) / (1000 * 60 * 60));
+                        }
+                    }
+                
+                }
+                hoursArray.push({
+                    name: adminUsers[i].Name,
+                    hours: Math.round(totalHours * 10) / 10,
+                })
+            }
+            
+        }
+
+        console.log(hoursArray);
+    }
 
     /*
     geolocator.config({
@@ -244,6 +307,8 @@
 
             console.log(adminUsersConverted)
 
+            console.log(adminUsers);
+
             return documents;
             
             //return usersData;
@@ -310,6 +375,24 @@
                 </div>
             {/each}
             {:else if admin === true}
+            <h1>Hours Per Pay Period</h1>
+            <Select class="mt-2" on:change={() => {calculatePayHours()}} items={periodArray} bind:value={selectedPeriod} />
+            {#if hoursArray != []}
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Hours</th>
+                        </tr>
+                    {#each hoursArray as hoursItem}
+                        <tr>
+                            <td>{hoursItem.name}</td>
+                            <td>{hoursItem.hours}</td>
+                        </tr>
+                    {/each}
+                    </table>
+                
+            {/if}
+            <hr>
                 {#each adminUsers as user}
                     {#if user.Name != null}
                         <h1>{user.Name}</h1>
