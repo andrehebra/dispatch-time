@@ -397,7 +397,7 @@
                     {#if user.Name != null}
                         <h1>{user.Name}</h1>
                         {#each user.times as clockInItem, index}
-                        {#if (clockInItem.clockIn.toDate().getHours() === 5) ||  (clockInItem.clockIn.toDate().getHours() === 13)}
+                        {#if (clockInItem.clockIn.toDate().getHours() != 5) ||  (clockInItem.clockIn.toDate().getHours() != 13)}
                                 <div class="todo late">
                                     <div class="horiz-list">
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
