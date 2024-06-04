@@ -1550,6 +1550,7 @@
     let adminUsersConverted = [];
 
     const options = { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false };
+    const dateOptions = { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' };
 
 
 
@@ -1762,26 +1763,24 @@
             for (let i = 0; i < adminUsers.length; i++) {
                 if (adminUsers[i] != null && adminUsers[i].times != null) {
                     for (let j = 0; j < adminUsers[i].times.length; j++) {
-                        console.log(adminUsers[i].times[j].clockIn.toDate());
-                        tempDate = adminUsers[i].times[j].clockIn.toDate();
-                        tempDate = tempDate.toLocaleString('en-US', options);
-                        adminUsers[i].times[j].clockInTime = tempDate;
+                        // Convert clockIn time to Eastern Time
+                        let tempDate = adminUsers[i].times[j].clockIn.toDate();
+                        let tempTime = tempDate.toLocaleString('en-US', options);
+                        let tempDateOnly = tempDate.toLocaleDateString('en-US', dateOptions);
+                        adminUsers[i].times[j].clockInTime = tempTime;
+                        adminUsers[i].times[j].clockInDate = tempDateOnly;
 
-                        tempMMDD = adminUsers[i].times[j].clockIn.toDate().toISOString().substring(0,10)
-                        adminUsers[i].times[j].clockInDate = tempMMDD;
-
-                        if (adminUsers[i].times[j].clockOut != "CURRENTLY CLOCKED IN") {
+                        if (adminUsers[i].times[j].clockOut !== "CURRENTLY CLOCKED IN") {
+                            // Convert clockOut time to Eastern Time
                             tempDate = adminUsers[i].times[j].clockOut.toDate();
-                            tempDate = tempDate.toLocaleString('en-US', options);
-                            adminUsers[i].times[j].clockOutTime = tempDate;
-
-                            tempMMDD = adminUsers[i].times[j].clockOut.toDate().toISOString().substring(0,10)
-                            adminUsers[i].times[j].clockOutDate = tempMMDD;
+                            tempTime = tempDate.toLocaleString('en-US', options);
+                            tempDateOnly = tempDate.toLocaleDateString('en-US', dateOptions);
+                            adminUsers[i].times[j].clockOutTime = tempTime;
+                            adminUsers[i].times[j].clockOutDate = tempDateOnly;
                         } else {
                             adminUsers[i].times[j].clockOutTime = "CURRENTLY CLOCKED IN";
                             adminUsers[i].times[j].clockOutDate = "CURRENTLY CLOCKED IN";
                         }
-                        
                     }
                 }
             }
