@@ -432,11 +432,13 @@
                                 </div>
                             {:else}
                                 <div class="todo">
-                                    <p>
-                                        {index + 1}. {clockInItem.clockIn.toDate().toLocaleDateString('en-US')} {clockInItem.clockIn.toDate().toLocaleTimeString('en-US')}   -   {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "CURRENTLY CLOCKED IN" : clockInItem.clockOut.toDate().toLocaleDateString('en-us')} {clockInItem.clockOut == "CURRENTLY CLOCKED IN" ? "" : clockInItem.clockOut.toDate().toLocaleTimeString('en-us')}
-                                    </p>
-                                    {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
-                                        <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
+                                    <input bind:value={clockInItem.clockInDate} type="date" />
+                                    <input bind:value={clockInItem.clockInTime} type="time" /> - 
+                                    {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
+                                        <input bind:value={clockInItem.clockOutDate} type="date" />
+                                        <input bind:value={clockInItem.clockOutTime} type="time" />
+                                    {:else}
+                                        <p>Currently Clocked In</p>
                                     {/if}
                                 </div>
                             {/if}
