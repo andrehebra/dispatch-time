@@ -1768,8 +1768,9 @@
                         tempDate = tempDate.toLocaleString('en-US', options);
                         adminUsers[i].times[j].clockInTime = tempDate;
 
-                        tempMMDD = adminUsers[i].times[j].clockIn.toDate().toLocaleString('en-US', options).toISOString().substring(0,10)
+                        tempMMDD = adminUsers[i].times[j].clockIn.toDate().toLocaleString('en-US', dateOptions)
                         adminUsers[i].times[j].clockInDate = tempMMDD;
+                        console.log(tempMMDD);
 
                         if (adminUsers[i].times[j].clockOut != "CURRENTLY CLOCKED IN") {
                             tempDate = adminUsers[i].times[j].clockOut.toDate();
