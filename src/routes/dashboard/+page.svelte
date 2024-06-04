@@ -1785,9 +1785,10 @@
                             tempDate = tempDate.toLocaleString('en-US', options);
                             adminUsers[i].times[j].clockOutTime = tempDate;
 
-                            tempMMDD = adminUsers[i].times[j].clockOut.toDate().toISOString().substring(0,10)
-                            adminUsers[i].times[j].clockOutDate = tempMMDD;
-                            console.log("clock out string date: " + tempMMDD);
+                            tempMMDD = adminUsers[i].times[j].clockOut.toDate()
+                            tempMMDD = moment.utc(tempMMDD, "MM/DD/YYYY HH:mm:ss");
+                            tempMMDD = tempMMDD.tz('America/New_York');
+                            tempMMDD = tempMMDD.format('YYYY-MM-DD');
                         } else {
                             adminUsers[i].times[j].clockOutTime = "CURRENTLY CLOCKED IN";
                             adminUsers[i].times[j].clockOutDate = "CURRENTLY CLOCKED IN";
