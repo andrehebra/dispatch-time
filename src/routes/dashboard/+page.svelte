@@ -1789,6 +1789,7 @@
                             tempMMDD = moment.utc(tempMMDD, "MM/DD/YYYY HH:mm:ss");
                             tempMMDD = tempMMDD.tz('America/New_York');
                             tempMMDD = tempMMDD.format('YYYY-MM-DD');
+                            adminUsers[i].times[j].clockOutDate = tempMMDD;
                         } else {
                             adminUsers[i].times[j].clockOutTime = "CURRENTLY CLOCKED IN";
                             adminUsers[i].times[j].clockOutDate = "CURRENTLY CLOCKED IN";
