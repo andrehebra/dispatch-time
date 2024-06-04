@@ -251,6 +251,9 @@
 
                             tempMMDD = adminUsers[i].times[j].clockOut.toDate().toISOString().substring(0,10)
                             adminUsers[i].times[j].clockOutDate = tempMMDD;
+                        } else {
+                            adminUsers[i].times[j].clockOutTime = "CURRENTLY CLOCKED IN";
+                            adminUsers[i].times[j].clockOutDate = "CURRENTLY CLOCKED IN";
                         }
                         
                     }
