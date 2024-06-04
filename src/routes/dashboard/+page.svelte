@@ -381,6 +381,7 @@
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
                                             <input type="date" />
+                                            <input type="datetime" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
