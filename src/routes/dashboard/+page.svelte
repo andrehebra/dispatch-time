@@ -238,7 +238,7 @@
                     for (let j = 0; j < adminUsers[i].times.length; j++) {
                         tempDate = adminUsers[i].times[j].clockIn.toDate()
                         tempDate = new Date(tempDate.toLocaleString('en-US', options));
-                        tempHHMM = tempDate.toISOString().substring(11,16);
+                        tempHHMM = tempDate.substring(11,16);
                         adminUsers[i].times[j].clockInTime = tempHHMM;
                     }
                 }
