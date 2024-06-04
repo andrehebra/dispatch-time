@@ -1768,7 +1768,13 @@
                         tempDate = tempDate.toLocaleString('en-US', options);
                         adminUsers[i].times[j].clockInTime = tempDate;
 
-                        tempMMDD = adminUsers[i].times[j].clockIn.toDate().toLocaleString('en-US', dateOptions)
+
+                        tempMMDD = adminUsers[i].times[j].clockIn.toDate()
+                        tempMMDD = moment.utc(tempMMDD, "MM/DD/YYYY HH:mm:ss");
+                        tempMMDD = tempMMDD.tz('America/New_York');
+                        tempMMDD = tempMMDD.format('YYYY-MM-DD');
+
+                        
                         adminUsers[i].times[j].clockInDate = tempMMDD;
                         console.log("tempMMDD" + tempMMDD);
 

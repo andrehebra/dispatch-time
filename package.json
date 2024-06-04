@@ -24,6 +24,7 @@
 		"firebase": "^10.12.1",
 		"geolocation": "^0.2.0",
 		"geolocator": "^2.1.5",
+		"moment-timezone": "^0.5.45",
 		"svelte-simple-modal": "^1.6.2",
 		"svelty-picker": "^5.2.9"
 	}
