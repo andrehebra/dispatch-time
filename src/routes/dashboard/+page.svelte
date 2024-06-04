@@ -1909,7 +1909,7 @@
         console.error('Error updating document: ', error);
     }
 
-    //reloadPage();
+    reloadPage();
 }
 </script>
 
