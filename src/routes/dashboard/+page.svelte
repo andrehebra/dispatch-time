@@ -1896,7 +1896,7 @@
         console.error('Error updating document: ', error);
     }
 
-    reloadPage();
+    //reloadPage();
 }
 </script>
 
@@ -2023,7 +2023,7 @@
 
     .horiz-list {
         display: flex;
-        gap: 25px;
+        gap: 5px;
     }
     .modal {
         position: fixed;
