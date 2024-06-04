@@ -330,7 +330,7 @@
         adminUsers = getAllUserTimes();
     }
 
-    async function updateClockIn(userId, index, newDateTime) {
+    async function updateClockIn(userId, index, updatedClockIn, updatedClockOut) {
     try {
         const userRef = db.collection('users').doc(userId);
         const userDoc = await userRef.get();
@@ -346,10 +346,11 @@
             return;
         }
 
-        userData.clockInArray[index].clockIn = newDateTime;
+        userData.times[index].clockIn = updatedClockIn;
+        userData.times[index].clockOut = updatedClockOut;
 
         await userRef.update({
-            clockInArray: userData.clockInArray
+            clockInArray: userData.times
         });
 
         console.log('Document successfully updated!');
@@ -431,7 +432,7 @@
                                             <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
                                         {/if}
 
-                                        <a href="">Update Times</a>
+                                        <a href="{() => {updateClockIn(user.id, index, new Date(clockInItem.clockInDate + " " + clockInItem.clockInTime), new Date(clockInItem.clockOutDate + " " + clockInItem.clockOutTime))}}">Update Times</a>
                                         
                                     </div>
                                     
@@ -455,7 +456,7 @@
                                             <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
                                         {/if}
                                         
-                                        <a href="">Update Times</a>
+                                        <a href="{() => {updateClockIn(user.id, index, new Date(clockInItem.clockInDate + " " + clockInItem.clockInTime), new Date(clockInItem.clockOutDate + " " + clockInItem.clockOutTime))}}">Update Times</a>
                                     </div>
                                 </div>
                             {/if}
