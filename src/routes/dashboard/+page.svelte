@@ -1878,9 +1878,18 @@
         userData.times[index].clockOut = updatedClockOut;
         console.log(userData);
 
+        /*
         await userRef.update({
             clockInArray: userData.times
         });
+        */
+        await setDoc(
+            userRef,
+            {
+                times: userData.times,
+            },
+            { merge: true }
+        );
 
         console.log('Document successfully updated!');
     } catch (error) {
