@@ -1860,7 +1860,7 @@
     try {
         console.log("Clock In: " + updatedClockIn);
         console.log("Clock Out: " + updatedClockOut);
-        const userRef = db.collection('users').doc(userId);
+        const userRef = doc(db, "users", userId);
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
