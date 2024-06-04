@@ -274,9 +274,12 @@
 
             */
 
-            console.log(adminUsersConverted)
+            //console.log(adminUsersConverted)
 
+            console.log("Admin Users: ");
             console.log(adminUsers);
+
+            adminUsers = adminUsers;
 
             return documents;
             
