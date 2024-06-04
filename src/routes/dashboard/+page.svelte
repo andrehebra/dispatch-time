@@ -1823,11 +1823,6 @@
 
             adminUsers = adminUsers;
 
-            let containers = document.getElementsByClassName("personContainer");
-            for (let i = 0; i < containers.length; i++) {
-                containers[i].scrollTop = 0;
-            }
-
             return documents;
             
             //return usersData;
@@ -2022,7 +2017,7 @@
         max-height: 200px;
         overflow-y: scroll;
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         gap: 15px;
     }
 
