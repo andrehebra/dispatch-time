@@ -2019,6 +2019,7 @@
         display: flex;
         flex-direction: column-reverse;
         gap: 15px;
+        justify-content: flex-end;
     }
 
     .horiz-list {
