@@ -236,15 +236,13 @@
             for (let i = 0; i < adminUsers.length; i++) {
                 if (adminUsers[i] != null && adminUsers[i].times != null) {
                     for (let j = 0; j < adminUsers[i].times.length; j++) {
-                        console.log("times item");
                         console.log(adminUsers[i].times[j].clockIn.toDate());
-                        tempDate = adminUsers[i].times[j].clockIn.toDate()
-                        console.log(tempDate);
+                        tempDate = adminUsers[i].times[j].clockIn.toDate();
                         tempDate = tempDate.toLocaleString('en-US', options);
-                        console.log("tempDate: ");
-                        console.log(tempDate);
-                        //tempHHMM = tempDate.toISOString.substring(11,16);
                         adminUsers[i].times[j].clockInTime = tempDate;
+
+                        tempMMDD = adminUsers[i].times[j].clockIn.toDate().toISOString().substring(0,10)
+                        adminUsers[i].times[j].clockInDate = tempMMDD;
                     }
                 }
             }
@@ -405,8 +403,8 @@
                                     <div class="horiz-list">
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
-                                            <input value={clockInItem.clockIn.toDate().toISOString().substring(0,10)} type="date" />
-                                            <input value={clockInItem.clockInTime} type="time" />
+                                            <input bind:value={clockInItem.clockInDate} type="date" />
+                                            <input bind:value={clockInItem.clockInTime} type="time" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
