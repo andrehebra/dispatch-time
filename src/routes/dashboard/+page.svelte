@@ -1951,6 +1951,7 @@
                 {#each adminUsers as user}
                     {#if user.Name != null}
                         <h1>{user.Name}</h1>
+                        <div class="personContainer">
                         {#each user.times as clockInItem, index}
                         {#if (clockInItem.clockIn.toDate().getHours() != 5) &&  (clockInItem.clockIn.toDate().getHours() != 13)}
                                 <div class="todo late">
@@ -2000,6 +2001,7 @@
                             {/if}
                             
                         {/each}
+                        </div>
                     {/if}
                 {/each}
             {/if}
@@ -2011,6 +2013,9 @@
 
 
 <style>
+    .personContainer {
+        max-height: 200px;
+    }
 
     .horiz-list {
         display: flex;
