@@ -243,6 +243,16 @@
 
                         tempMMDD = adminUsers[i].times[j].clockIn.toDate().toISOString().substring(0,10)
                         adminUsers[i].times[j].clockInDate = tempMMDD;
+
+                        if (adminUsers[i].times[j].clockOut != "CURRENTLY CLOCKED IN") {
+                            tempDate = adminUsers[i].times[j].clockOut.toDate();
+                            tempDate = tempDate.toLocaleString('en-US', options);
+                            adminUsers[i].times[j].clockOutTime = tempDate;
+
+                            tempMMDD = adminUsers[i].times[j].clockOut.toDate().toISOString().substring(0,10)
+                            adminUsers[i].times[j].clockOutDate = tempMMDD;
+                        }
+                        
                     }
                 }
             }
@@ -401,10 +411,11 @@
                         {#if (clockInItem.clockIn.toDate().getHours() != 5) &&  (clockInItem.clockIn.toDate().getHours() != 13)}
                                 <div class="todo late">
                                     <div class="horiz-list">
-                                        <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
+                                        <input bind:value={clockInItem.clockInDate} type="date" />
+                                        <input bind:value={clockInItem.clockInTime} type="time" /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
-                                            <input bind:value={clockInItem.clockInDate} type="date" />
-                                            <input bind:value={clockInItem.clockInTime} type="time" />
+                                            <input bind:value={clockInItem.clockOutDate} type="date" />
+                                            <input bind:value={clockInItem.clockOutTime} type="time" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
