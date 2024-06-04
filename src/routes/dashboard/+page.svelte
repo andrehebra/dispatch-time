@@ -380,8 +380,8 @@
                                     <div class="horiz-list">
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
-                                            <input value={clockInItem.clockIn.toDate()} type="date" />
-                                            <input type="time" />
+                                            <input value={clockInItem.clockIn.toISOString().substring(0,10)} type="date" />
+                                            <input value={clockInItem.clockIn.toISOString().substring(11,16)} type="time" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
