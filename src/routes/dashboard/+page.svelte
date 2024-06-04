@@ -23,7 +23,7 @@
     let adminUsers = [];
     let adminUsersConverted = [];
 
-    const options = {timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false};
+    const options = { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false };
 
 
 
