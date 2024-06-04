@@ -23,8 +23,6 @@
     let adminUsers = [];
     let adminUsersConverted = [];
 
-    let googleMapsCode = "AIzaSyBfM7u1Q5ZDBqdmQYUOQLYQ-2rLVRlPuLQ";
-
 
 
     let periodArray = [];
@@ -85,52 +83,6 @@
 
         console.log(hoursArray);
     }
-
-    /*
-    geolocator.config({
-        language: "en",
-        google: {
-            version: "3",
-            key: googleMapsCode,
-        }
-    });
- 
-    window.onload = function () {
-        var options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumWait: 10000,     // max wait time for desired accuracy
-            maximumAge: 0,          // disable cache
-            desiredAccuracy: 30,    // meters
-            fallbackToIP: true,     // fallback to IP if Geolocation fails or rejected
-            addressLookup: true,    // requires Google API key if true
-            timezone: true,         // requires Google API key if true
-            map: "map-canvas",      // interactive map element id (or options object)
-            staticMap: true         // get a static map image URL (boolean or options object)
-        };
-        geolocator.locate(options, function (err, location) {
-            if (err) return console.log(err);
-            console.log(location);
-        });
-    };
-    
-    
-    let hasLocation = false;
-    let location = null;
-
-    const successCallback = (position) => {
-        console.log(position);
-        location = position;
-        hasLocation = true;
-    };
-
-    const errorCallback = (error) => {
-        alert("You must allow location access for this tool to work. You will be unable until you edit your location permissions.")
-    };
-
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-
-    */
 
     let getLocation = () => {
     return new Promise((resolve, reject) => {
@@ -339,10 +291,36 @@
     }
 
     if (admin == true) {
-        console.log("hello");
         adminUsers = getAllUserTimes();
-        
     }
+
+    async function updateClockIn(userId, index, newDateTime) {
+    try {
+        const userRef = db.collection('users').doc(userId);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            console.log('No such document!');
+            return;
+        }
+
+        const userData = userDoc.data();
+        if (!Array.isArray(userData.times) || index >= userData.times.length) {
+            console.log('Invalid index');
+            return;
+        }
+
+        userData.clockInArray[index].clockIn = newDateTime;
+
+        await userRef.update({
+            clockInArray: userData.clockInArray
+        });
+
+        console.log('Document successfully updated!');
+    } catch (error) {
+        console.error('Error updating document: ', error);
+    }
+}
 </script>
 
 {#if !$authStore.loading}
@@ -402,7 +380,7 @@
                                     <div class="horiz-list">
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
-                                            <DateInput class={user + " " + index + " clockout"} value={clockInItem.clockOut.toDate()} />
+                                            <input type="date" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
