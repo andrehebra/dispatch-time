@@ -2015,6 +2015,7 @@
 <style>
     .personContainer {
         max-height: 200px;
+        overflow-y: scroll;
     }
 
     .horiz-list {
