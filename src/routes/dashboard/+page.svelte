@@ -237,7 +237,7 @@
                 if (adminUsers[i] != null && adminUsers[i].times != null) {
                     for (let j = 0; j < adminUsers[i].times.length; j++) {
                         console.log("times item");
-                        console.log(adminUsers[i].times[j]);
+                        console.log(adminUsers[i].times[j].clockIn.toDate());
                         tempDate = adminUsers[i].times[j].clockIn.toDate()
                         tempDate = new Date(tempDate.toLocaleString('en-US', options));
                         console.log("tempDate: ");
