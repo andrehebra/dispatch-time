@@ -2016,6 +2016,9 @@
     .personContainer {
         max-height: 200px;
         overflow-y: scroll;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 15px;
     }
 
     .horiz-list {
