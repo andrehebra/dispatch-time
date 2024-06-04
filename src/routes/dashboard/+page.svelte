@@ -427,11 +427,12 @@
                                     </div>
                                     
                                     <div class="options">
-                                        
-                                        <a href="">Update Times</a>
                                         {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
                                             <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
                                         {/if}
+
+                                        <a href="">Update Times</a>
+                                        
                                     </div>
                                     
                                 </div>
@@ -450,10 +451,11 @@
                                     
                                     <div class="options">
                                         
-                                        
                                         {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
                                             <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
                                         {/if}
+                                        
+                                        <a href="">Update Times</a>
                                     </div>
                                 </div>
                             {/if}
