@@ -1858,6 +1858,8 @@
 
     async function updateClockIn(userId, index, updatedClockIn, updatedClockOut) {
     try {
+        console.log("Clock In: " + updatedClockIn);
+        console.log("Clock Out: " + updatedClockOut);
         const userRef = db.collection('users').doc(userId);
         const userDoc = await userRef.get();
 
@@ -1884,7 +1886,7 @@
         console.error('Error updating document: ', error);
     }
 
-    reloadPage();
+    //reloadPage();
 }
 </script>
 
