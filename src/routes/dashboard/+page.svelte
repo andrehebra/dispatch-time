@@ -1823,6 +1823,11 @@
 
             adminUsers = adminUsers;
 
+            let containers = document.getElementsByClassName("personContainer");
+            for (let i = 0; i < containers.length; i++) {
+                containers[i].scrollTop = 0;
+            }
+
             return documents;
             
             //return usersData;
@@ -2019,7 +2024,6 @@
         display: flex;
         flex-direction: column-reverse;
         gap: 15px;
-        justify-content: flex-end;
     }
 
     .horiz-list {
