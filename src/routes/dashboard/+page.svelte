@@ -1861,7 +1861,7 @@
         console.log("Clock In: " + updatedClockIn);
         console.log("Clock Out: " + updatedClockOut);
         const userRef = doc(db, "users", userId);
-        const userDoc = await userRef.getDoc();
+        const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists) {
             console.log('No such document!');
