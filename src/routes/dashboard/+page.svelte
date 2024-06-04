@@ -432,14 +432,24 @@
                                 </div>
                             {:else}
                                 <div class="todo">
-                                    <input bind:value={clockInItem.clockInDate} type="date" />
-                                    <input bind:value={clockInItem.clockInTime} type="time" /> - 
-                                    {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
-                                        <input bind:value={clockInItem.clockOutDate} type="date" />
-                                        <input bind:value={clockInItem.clockOutTime} type="time" />
-                                    {:else}
-                                        <p>Currently Clocked In</p>
-                                    {/if}
+                                    <div class="horiz-list">
+                                        <input bind:value={clockInItem.clockInDate} type="date" />
+                                        <input bind:value={clockInItem.clockInTime} type="time" /> - 
+                                        {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
+                                            <input bind:value={clockInItem.clockOutDate} type="date" />
+                                            <input bind:value={clockInItem.clockOutTime} type="time" />
+                                        {:else}
+                                            <p>Currently Clocked In</p>
+                                        {/if}
+                                    </div>
+                                    
+                                    <div class="options">
+                                        
+                                        
+                                        {#if clockInItem.location != null && clockInItem.location[0] != null && clockInItem.location[1] != null}
+                                            <a href={"https://maps.google.com/?q=" + clockInItem.location[0] + "," + clockInItem.location[1]}>View Location</a>
+                                        {/if}
+                                    </div>
                                 </div>
                             {/if}
                             
