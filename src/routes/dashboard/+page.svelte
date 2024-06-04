@@ -229,6 +229,21 @@
 
             adminUsers = documents;
 
+
+            let tempDate;
+            let tempMMDD;
+            let tempHHMM;
+            for (let i = 0; i < adminUsers.length; i++) {
+                if (adminUsers[i] != null && adminUsers[i].times != null) {
+                    for (let j = 0; j < adminUsers[i].times.length; j++) {
+                        tempDate = adminUsers[i].times[j].clockIn.toDate()
+                        tempDate = new Date(tempDate.toLocaleString('en-US', options));
+                        tempHHMM = tempDate.toISOString().substring(11,16);
+                        adminUsers[i].times[j].clockInTime = tempHHMM;
+                    }
+                }
+            }
+
             /*
             for (let i = 0; i < documents.length; i++) {
                 if (adminUsers[i].Name != null) {
@@ -383,7 +398,7 @@
                                         <DateInput  class={user.email + " " + index + " clockout"} value={clockInItem.clockIn.toDate()} /> - 
                                         {#if clockInItem.clockOut != "CURRENTLY CLOCKED IN"}
                                             <input value={clockInItem.clockIn.toDate().toISOString().substring(0,10)} type="date" />
-                                            <input value={clockInItem.clockIn.toLocaleString('en-US', options).toDate().substring(11,16)} type="time" />
+                                            <input value={clockInItem.clockInTime} type="time" />
                                         {:else}
                                             <p>Currently Clocked In</p>
                                         {/if}
