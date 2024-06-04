@@ -239,10 +239,11 @@
                         console.log("times item");
                         console.log(adminUsers[i].times[j].clockIn.toDate());
                         tempDate = adminUsers[i].times[j].clockIn.toDate()
-                        tempDate = new Date(tempDate.toLocaleString('en-US', options));
+                        console.log(tempDate);
+                        tempDate = tempDate.toLocaleString('en-US', options);
                         console.log("tempDate: ");
                         console.log(tempDate);
-                        tempHHMM = tempDate.substring(11,16);
+                        tempHHMM = tempDate.toISOString.substring(11,16);
                         adminUsers[i].times[j].clockInTime = tempHHMM;
                     }
                 }
