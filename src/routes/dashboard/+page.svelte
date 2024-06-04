@@ -243,8 +243,8 @@
                         tempDate = tempDate.toLocaleString('en-US', options);
                         console.log("tempDate: ");
                         console.log(tempDate);
-                        tempHHMM = tempDate.toISOString.substring(11,16);
-                        adminUsers[i].times[j].clockInTime = tempHHMM;
+                        //tempHHMM = tempDate.toISOString.substring(11,16);
+                        adminUsers[i].times[j].clockInTime = tempDate;
                     }
                 }
             }
