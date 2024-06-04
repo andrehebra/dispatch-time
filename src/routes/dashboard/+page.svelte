@@ -1876,6 +1876,7 @@
 
         userData.times[index].clockIn = updatedClockIn;
         userData.times[index].clockOut = updatedClockOut;
+        console.log(userData);
 
         await userRef.update({
             clockInArray: userData.times
