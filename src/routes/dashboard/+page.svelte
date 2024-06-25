@@ -6,6 +6,7 @@
   import TodoItem from "../../components/TodoItem.svelte";
 
   import { Select } from "flowbite-svelte";
+  import {afterUpdate} from 'svelte';
 
   import { DateInput } from "date-picker-svelte";
 
@@ -337,7 +338,7 @@
 
       adminUsers = adminUsers;
 
-      scrollToBottom();
+      //scrollToBottom();
 
       return documents;
 
@@ -416,6 +417,7 @@
   }
 
   function scrollToBottom() {
+    console.log("scroll to bottom");
     adminUsers.forEach(user => {
       // Check if user.times exists and is not empty
       if (user.times && user.times.length > 0) {
@@ -425,9 +427,9 @@
     });
   }
 
-  $: if (adminUsers) {
-    scrollToBottom()
-  }
+  afterUpdate(() => {
+    scrollToBottom();
+  });
 </script>
 
 {#if !$authStore.loading}
