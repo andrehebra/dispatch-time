@@ -422,7 +422,11 @@
       // Check if user.times exists and is not empty
       if (user.times && user.times.length > 0) {
         const personContainer = document.getElementById(`personContainer_${user.id}`);
-        personContainer.scrollTop = personContainer.scrollHeight;
+        if (personContainer) {
+            console.log(personContainer);
+            personContainer.scrollTop = personContainer.scrollHeight;
+        }
+        
       }
     });
   }
