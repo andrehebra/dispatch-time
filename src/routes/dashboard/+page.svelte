@@ -1878,6 +1878,9 @@
     for (let i = 0; i < personContainers.length; i++) {
         personContainers[i].scroll({ top: personContainers[i].scrollHeight, behavior: 'smooth' });
     }
+
+    console.log("scroll to bottom called");
+    console.log(personContainers);
   }
 
   async function saveTodos() {
