@@ -481,10 +481,10 @@
           </table>
         {/if}
         <hr />
-        {#each adminUsers as user, index}
+        {#each adminUsers as user}
           {#if user.Name != null}
             <h1>{user.Name}</h1>
-            <div bind:this={adminUsers[index]} class="personContainer">
+            <div  class="personContainer">
               {#each user.times as clockInItem, index}
                 {#if clockInItem.clockIn
                   .toDate()
