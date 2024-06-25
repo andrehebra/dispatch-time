@@ -416,8 +416,9 @@
   }
 
   function scrollToBottom() {
+    console.log("scroll to bottom called");
     let containers = document.getElementsByClassName("personContainer");
-
+    console.log(containers);
     for (let i = 0; i < containers.length; i++) {
         containers[i].scrollTop = containers[i].scrollHeight;
     }
