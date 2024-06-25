@@ -425,9 +425,9 @@
     });
   }
 
-  afterUpdate(() => {
-    scrollToBottom();
-  });
+  $: if (adminUsers) {
+    scrollToBottom()
+  }
 </script>
 
 {#if !$authStore.loading}
