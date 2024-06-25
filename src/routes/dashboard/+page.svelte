@@ -416,12 +416,13 @@
   }
 
   function scrollToBottom() {
-    console.log("scroll to bottom called");
-    let containers = document.getElementsByClassName("personContainer");
-    console.log(containers);
-    for (let i = 0; i < containers.length; i++) {
-        containers[i].scrollTop = containers[i].scrollHeight;
-    }
+    adminUsers.forEach(user => {
+      // Check if user.times exists and is not empty
+      if (user.times && user.times.length > 0) {
+        const personContainer = document.getElementById(`personContainer_${user.id}`);
+        personContainer.scrollTop = personContainer.scrollHeight;
+      }
+    });
   }
 </script>
 
@@ -489,7 +490,7 @@
         {#each adminUsers as user}
           {#if user.Name != null}
             <h1>{user.Name}</h1>
-            <div class="personContainer">
+            <div id={`personContainer_${user.id}`} class="personContainer">
               {#each user.times as clockInItem, index}
                 {#if clockInItem.clockIn
                   .toDate()
