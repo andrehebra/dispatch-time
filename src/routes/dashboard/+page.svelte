@@ -337,7 +337,7 @@
 
       adminUsers = adminUsers;
 
-      scrollToBottom();
+      //scrollToBottom();
 
       return documents;
 
@@ -349,13 +349,11 @@
   }
 
   $: if (adminUsers) {
-    for (let i = 0; i < adminUsers.length; i++) {
-        //scrollToBottom(adminUsers[i]);
-    }
+    scrollToBottom();
     
   }
 
-  async function scrollToBottom(node) {
+  async function scrollToBottom() {
     node.scroll({ top: node.scrollHeight, behavior: "smooth" });
   }
 
