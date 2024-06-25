@@ -348,14 +348,9 @@
     }
   }
 
-  $: if (adminUsers) {
-    scrollToBottom();
-    
-  }
+  
 
-  async function scrollToBottom() {
-    node.scroll({ top: node.scrollHeight, behavior: "smooth" });
-  }
+  
 
   async function saveTodos() {
     try {
