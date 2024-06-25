@@ -337,7 +337,7 @@
 
       adminUsers = adminUsers;
 
-      //scrollToBottom();
+      scrollToBottom();
 
       return documents;
 
@@ -347,10 +347,6 @@
       throw error;
     }
   }
-
-  
-
-  
 
   async function saveTodos() {
     try {
@@ -418,6 +414,14 @@
 
     reloadPage();
   }
+
+  function scrollToBottom() {
+    let containers = document.getElementsByClassName("personContainer");
+
+    for (let i = 0; i < containers.length; i++) {
+        containers[i].scrollTop = containers[i].scrollHeight;
+    }
+  }
 </script>
 
 {#if !$authStore.loading}
@@ -484,7 +488,7 @@
         {#each adminUsers as user}
           {#if user.Name != null}
             <h1>{user.Name}</h1>
-            <div  class="personContainer">
+            <div class="personContainer">
               {#each user.times as clockInItem, index}
                 {#if clockInItem.clockIn
                   .toDate()
