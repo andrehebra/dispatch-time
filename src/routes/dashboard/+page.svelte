@@ -424,6 +424,10 @@
       }
     });
   }
+
+  afterUpdate(() => {
+    scrollToBottom();
+  });
 </script>
 
 {#if !$authStore.loading}
