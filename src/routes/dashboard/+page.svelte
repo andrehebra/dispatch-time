@@ -350,7 +350,7 @@
 
   $: if (adminUsers) {
     for (let i = 0; i < adminUsers.length; i++) {
-        scrollToBottom(adminUsers[i]);
+        //scrollToBottom(adminUsers[i]);
     }
     
   }
