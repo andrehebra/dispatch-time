@@ -348,9 +348,11 @@
     }
   }
 
-  $: if (personContainer) {
-    console.log("tick");
-    scrollToBottom(personContainer);
+  $: if (adminUsers) {
+    for (let i = 0; i < adminUsers.length; i++) {
+        scrollToBottom(adminUsers[i]);
+    }
+    
   }
 
   async function scrollToBottom(node) {
@@ -486,10 +488,10 @@
           </table>
         {/if}
         <hr />
-        {#each adminUsers as user}
+        {#each adminUsers as user, index}
           {#if user.Name != null}
             <h1>{user.Name}</h1>
-            <div bind:this={personContainer} class="personContainer">
+            <div bind:this={adminUsers[index]} class="personContainer">
               {#each user.times as clockInItem, index}
                 {#if clockInItem.clockIn
                   .toDate()
